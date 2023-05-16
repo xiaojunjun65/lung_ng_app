@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButto
 from PyQt5.QtGui import QColor, QPalette, QFont
 from PyQt5.QtCore import Qt
 import pandas as pd
-
+from adminwin import AdminWindow
 class LoginWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -84,16 +84,20 @@ class LoginWindow(QWidget):
         # 使用 pandas 读取 "db.xlsx" 文件
         try:
             df = pd.read_excel("db.xlsx")
-            yh_column = df["yh"]
-            ps_column = df["ps"]
+            yh_column = df["用户名"]
+            ps_column = df["密码"]
+
             # 判断用户名是否存在
             if username in yh_column.values:
 
                 # 获取对应用户名的密码
                 correct_password = ps_column[yh_column[yh_column == username].index[0]]
 
-                if str(password) == str(correct_password):
+                if str(password) == str(correct_password) and user_type =="管理员":
                     QMessageBox.information(self, "登录结果", f"{user_type} {username} 登录成功")
+                    self.AdminWindow = AdminWindow(username)
+                    self.AdminWindow.show()
+                    self.hide()
                     return
             QMessageBox.warning(self, "登录结果", "暂无用户")
         except Exception as e:

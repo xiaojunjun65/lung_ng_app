@@ -72,7 +72,7 @@ class RegisterWindow(QWidget):
             return
 
         # 在这里编写注册逻辑
-        data = {'yh': [username], 'ps': [password]}
+        data = {'用户名': [username], '密码': [password]}
         df = pd.DataFrame(data)
 
         try:
