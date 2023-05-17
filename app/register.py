@@ -1,6 +1,6 @@
 import sys
 import pandas as pd
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QMessageBox,QComboBox
 from PyQt5.QtGui import QColor, QPalette
 import openpyxl
 import os.path
@@ -24,6 +24,8 @@ class RegisterWindow(QWidget):
         self.password_input = QLineEdit()
         self.password_input.setEchoMode(QLineEdit.Password)
         self.register_button = QPushButton("注册")
+        self.user_type_combobox = QComboBox()
+        self.user_type_combobox.addItems(["用户", "管理员"])
 
         # 设置CSS样式
         self.setStyleSheet("""
@@ -52,7 +54,9 @@ class RegisterWindow(QWidget):
         layout.addWidget(self.username_input)
         layout.addWidget(self.password_label)
         layout.addWidget(self.password_input)
+        layout.addWidget(self.user_type_combobox)
         layout.addWidget(self.register_button)
+
         layout.addStretch()  # 添加一个弹性空间，使布局居中显示
         self.setLayout(layout)
 
@@ -64,7 +68,7 @@ class RegisterWindow(QWidget):
     def register(self):
         username = self.username_input.text()
         password = self.password_input.text()
-
+        user_type = self.user_type_combobox.currentText()
 
         # 检查密码是否为空
         if not password:
@@ -72,7 +76,7 @@ class RegisterWindow(QWidget):
             return
 
         # 在这里编写注册逻辑
-        data = {'用户名': [username], '密码': [password]}
+        data = {'用户名': [username], '密码': [password],'权限':[user_type]}
         df = pd.DataFrame(data)
 
         try:

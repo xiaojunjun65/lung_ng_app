@@ -87,20 +87,20 @@ class LoginWindow(QWidget):
             df = pd.read_excel("db.xlsx")
             yh_column = df["用户名"]
             ps_column = df["密码"]
-
+            usr_column = df["权限"]
             # 判断用户名是否存在
             if username in yh_column.values:
 
                 # 获取对应用户名的密码
                 correct_password = ps_column[yh_column[yh_column == username].index[0]]
-
-                if str(password) == str(correct_password) and user_type =="管理员":
+                usr_corr = usr_column[yh_column[yh_column == username].index[0]]
+                if str(password) == str(correct_password) and user_type ==usr_corr and user_type =="管理员":
                     QMessageBox.information(self, "登录结果", f"{user_type} {username} 登录成功")
                     self.LungDetectionUI = LungDetectionUI(username,mode=1)
                     self.LungDetectionUI.show()
                     self.hide()
                     return
-                if str(password) == str(correct_password) and user_type =="用户":
+                if str(password) == str(correct_password) and user_type ==usr_corr:
                     QMessageBox.information(self, "登录结果", f"{user_type} {username} 登录成功")
                     self.LungDetectionUI = LungDetectionUI(username,mode=2)
                     self.LungDetectionUI.show()
