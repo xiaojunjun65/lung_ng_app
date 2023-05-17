@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButto
 from PyQt5.QtGui import QColor, QPalette, QFont
 from PyQt5.QtCore import Qt
 import pandas as pd
+from  ai.app_main import LungDetectionUI
 from adminwin import AdminWindow
 class LoginWindow(QWidget):
     def __init__(self):
@@ -95,8 +96,14 @@ class LoginWindow(QWidget):
 
                 if str(password) == str(correct_password) and user_type =="管理员":
                     QMessageBox.information(self, "登录结果", f"{user_type} {username} 登录成功")
-                    self.AdminWindow = AdminWindow(username)
-                    self.AdminWindow.show()
+                    self.LungDetectionUI = LungDetectionUI(username,mode=1)
+                    self.LungDetectionUI.show()
+                    self.hide()
+                    return
+                if str(password) == str(correct_password) and user_type =="用户":
+                    QMessageBox.information(self, "登录结果", f"{user_type} {username} 登录成功")
+                    self.LungDetectionUI = LungDetectionUI(username,mode=2)
+                    self.LungDetectionUI.show()
                     self.hide()
                     return
             QMessageBox.warning(self, "登录结果", "暂无用户")
